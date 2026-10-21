@@ -1,0 +1,23 @@
+name: Continuous Integration
+
+on:
+  push:
+    branches: [ main ] # あなたのリポジトリのメインブランチ名（masterなどの場合は書き換えてください）
+
+jobs:
+  prettier:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Run Prettier
+        uses: creyder/prettier_action@v4.3
+        with:
+          # ここに整形したい対象を指定（今回はHTML、ついでにCSSとJSも対象にしています）
+          prettier_options: --write **/*.{html,css,js}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
